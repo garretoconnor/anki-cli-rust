@@ -1,0 +1,23 @@
+[package]
+name = "anki-cli"
+version = "0.1.0"
+edition = "2021"
+description = "Agent-friendly CLI for managing Anki collections, built on Anki's official Rust backend"
+license = "MIT"
+
+[dependencies]
+# Pinned to the locally installed Anki app version (25.09) so all writes
+# are bit-compatible with what the desktop app expects.
+anki = { git = "https://github.com/ankitects/anki.git", tag = "25.09" }
+anki_proto = { git = "https://github.com/ankitects/anki.git", tag = "25.09" }
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+# preserve_order keeps note fields in notetype order in JSON output
+serde_json = { version = "1", features = ["preserve_order"] }
+# Not used directly: anki 25.09's sync code needs tokio's io-util feature,
+# which its own manifest forgets to request; feature unification supplies it.
+tokio = { version = "1", features = ["io-util"] }
+
+[profile.release]
+strip = true
